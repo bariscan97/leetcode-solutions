@@ -2,16 +2,21 @@ class Solution:
     def countOfPairs(self, nums: List[int]) -> int:
         
         @cache
-        def dfs(i, prev1, prev2):
+        def dfs(i, prev):
             if i == len(nums):
                 return 1 
             val = 0
-            for idx in range(nums[i] + 1):
-                if prev1 != None and prev2 != None:
-                    if idx >= prev1 and nums[i] - idx <= prev2:
-                        val += dfs(i + 1, idx, nums[i] - idx)
+            start = 0
+            if i:
+                if nums[i] >= nums[i - 1]:
+                    start = prev
+
+            for idx in range(start, nums[i] + 1):
+                if i:
+                    if idx >= prev and nums[i] - idx <= nums[i - 1] - prev:
+                        val += dfs(i + 1, idx)
                 else:
-                    val += dfs(i + 1, idx, nums[i] - idx)
+                    val += dfs(i + 1, idx)
             return val 
             
-        return dfs(0,None,None) % (10 ** 9 + 7 )
+        return dfs(0,None) % (10 ** 9 + 7 )
