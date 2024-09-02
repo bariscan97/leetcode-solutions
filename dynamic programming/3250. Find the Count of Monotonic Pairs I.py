@@ -8,10 +8,10 @@ class Solution:
             val = 0
             for idx in range(nums[i] + 1):
                 if prev1 != None and prev2 != None:
-                    if idx >= prev1 and (nums[i] + 1) - idx <= prev2:
-                        val += dfs(i + 1, idx, (nums[i] + 1) - idx)
+                    if idx >= prev1 and nums[i] - idx <= prev2:
+                        val += dfs(i + 1, idx, nums[i] - idx)
                 else:
-                    val += dfs(i + 1, idx, (nums[i] + 1) - idx)
+                    val += dfs(i + 1, idx, nums[i] - idx)
             return val 
             
         return dfs(0,None,None) % (10 ** 9 + 7 )
