@@ -37,16 +37,13 @@ class Trie:
         currPref.cnt += 1
         currSuff.cnt += 1
         self.dic[word] += 1
-        
         common = x & y
         res = 0
-        
         for i in common:
             if i == word:
                 res += (self.dic[i] - 1)
             else:
                 res += self.dic[i]
-        
         return res
    
 class Solution:
@@ -55,5 +52,4 @@ class Solution:
         res = 0
         for i in words: 
             res += trie.insert(i)
-        
         return res
