@@ -8,31 +8,31 @@ class Solution:
             for j in range(n):
                 if not matrix[i][j] in ('.' ,'#'):
                     dic[matrix[i][j]].append((i,j))
+        seens = set()
         q = deque()
-        q.append((0,0))
-        visitedz = set()
+        if matrix[0][0] in dic:
+            seens.add(matrix[0][0])
+            q.extend(dic[matrix[0][0]])
+        else:
+            q.append((0,0))
+        cnt = 0
         while q:
-           
-            i, j = q.popleft()
-            if (i,j) == (m - 1, n - 1):
-                return visited[i][j]
-            paths =  [(i, j + 1), (i, j - 1), (i + 1, j), (i - 1, j)]
-            if matrix[i][j] in dic and not matrix[i][j] in visitedz:
-                visitedz.add(matrix[i][j])
-                for x,y in dic[matrix[i][j]]:
-                    q.append((x,y))
-            visited[i][j] += 1
-            for r,c in paths:
-                if -1 < r < m and -1 < c < n:
-                    if not matrix[r][c] in ('.' ,'#'):
-                        if matrix[i][j] != matrix[r][c]:
-                            q.append((r,c))
-                            aa = visited[i][j]
-                            visited[r][c] =  aa
-                            continue
-                    if visited[i][j] <= visited[r][c]:
-                        aa = visited[i][j]
-                        visited[r][c] =  aa + 1
-        print(visited)
+            for _ in range(len(q)):
+                i, j = q.popleft()
+                if (i,j) == (m - 1, n - 1):
+                   return cnt
+                paths =  [(i, j + 1), (i, j - 1), (i + 1, j), (i - 1, j)]
+                for r, c in paths:
+                    if -1 < r < m and -1 < c < n and matrix[r][c] != '#' and not matrix[r][c] in seens:
+                        if matrix[r][c] in dic:
+                            seens.add(matrix[r][c])
+                            for xx, yy in dic[matrix[r][c]]:
+                                visited[xx][yy] = cnt 
+                                q.append((xx,yy))
+                        else:
+                            if cnt < visited[r][c]:
+                                visited[r][c] = cnt 
+                                q.append((r,c))  
+            cnt += 1 
         return -1
                         
