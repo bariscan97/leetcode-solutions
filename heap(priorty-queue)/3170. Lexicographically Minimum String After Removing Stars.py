@@ -1,14 +1,13 @@
 class Solution:
     def clearStars(self, s: str) -> str:
-        s = list(s)
+        arr = list(s[:])
         _heap = []
-        for i in range(len(s)):
-            if s[i] != "*":
-                heappush(_heap,[s[i] ,i * (-1)])
+        N = len(s)
+        for i in range(N):
+            if s[i] == "*":
+                _, idx = heappop(_heap)
+                idx = -(idx + 1)
+                arr[idx] = "*"
             else:
-                val ,idx  = heappop(_heap)
-                s[idx * (-1)] = "*"
-        
-        res = "".join([i for i in s if i != "*"])
-        
-        return res
+                heappush(_heap,[s[i], -(i + 1)])    
+        return "".join([i for i in arr if i != "*"])
